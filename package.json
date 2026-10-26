@@ -1,6 +1,6 @@
 {
   "name": "unahur-mcp",
-  "version": "0.8.3",
+  "version": "0.1.0",
   "description": "Model Context Protocol server NO OFICIAL de la UNAHUR para buscar información o archivos en el campus virtual. Basado en utn-mcp.",
   "main": "build/index.js",
   "bin": {
@@ -31,7 +31,10 @@
     "moodle",
     "campus-virtual"
   ],
-  "author": "Joaquín Peñalva (https://github.com/nialvape)",
+  "author": "franiiel (https://github.com/franiiel)",
+  "contributors": [
+    "Joaquín Peñalva (https://github.com/nialvape)"
+  ],
   "license": "ISC",
   "type": "module",
   "bugs": {
