@@ -78,7 +78,7 @@ export class StoredAulaSession implements AulaSession {
     private loginRequired(reason: string): LoginRequiredError {
         const next = this.loginUrl
             ? `Pedile al usuario que vuelva a iniciar sesión en ${this.loginUrl} y después reintentá.`
-            : "Volvé a iniciar sesión con `utn-mcp login --http` en la máquina del servidor.";
+            : "Volvé a iniciar sesión con `unahur-mcp login --http` en la máquina del servidor.";
         return new LoginRequiredError(`${reason} ${next}`);
     }
 }

@@ -10,7 +10,7 @@ import { fetchToken, LoginRequiredError, type SecondFactor } from "./sso-login.j
 interface StoredSession {
     token: string | null;
     obtainedAt: string | null;
-    /** El id de la que se eligió en `utn-mcp login`; no está en las sesiones de antes de elegirla. */
+    /** El id de la que se eligió en `unahur-mcp login`; no está en las sesiones de antes de elegirla. */
     regional?: string;
 }
 
@@ -22,7 +22,7 @@ export class LocalSession implements AulaSession {
     private refreshing: Promise<string> | null = null;
 
     /**
-     * La elegida en `utn-mcp login`: la de session.json o, si se borró, la guardada con las credenciales.
+     * La elegida en `unahur-mcp login`: la de session.json o, si se borró, la guardada con las credenciales.
      * Sin login (UTN_USER/UTN_PASS) o de antes de elegirla, la de UTN_REGIONAL.
      */
     async getRegional(): Promise<Regional> {

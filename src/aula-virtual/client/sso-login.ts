@@ -6,7 +6,7 @@ import { UnsupportedRegionalError, type Regional, type SsoProviderId } from "./r
 import { MoodleError } from "./moodle-api.js";
 
 export class LoginRequiredError extends Error {
-    constructor(message = "Hace falta iniciar sesión: corré `utn-mcp login`.") {
+    constructor(message = "Hace falta iniciar sesión: corré `unahur-mcp login`.") {
         super(message);
         this.name = "LoginRequiredError";
     }
@@ -14,7 +14,7 @@ export class LoginRequiredError extends Error {
 
 export class InvalidCredentialsError extends Error {
     constructor(reason?: string) {
-        const base = "El aula rechazó usuario o contraseña. Corré `utn-mcp login` para actualizarlos.";
+        const base = "El aula rechazó usuario o contraseña. Corré `unahur-mcp login` para actualizarlos.";
         super(reason ? `${base} Motivo del aula: ${reason}` : base);
         this.name = "InvalidCredentialsError";
     }
@@ -127,7 +127,7 @@ export class MfaRequiredError extends LoginRequiredError {
     constructor() {
         super(
             "Tu cuenta de Microsoft pide un segundo factor (MFA), que solo se completa al iniciar sesión: " +
-                "corré `utn-mcp login`.",
+                "corré `unahur-mcp login`.",
         );
         this.name = "MfaRequiredError";
     }

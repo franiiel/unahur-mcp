@@ -56,7 +56,7 @@ export function mountAdmin(app: Express, store: SessionStore, secret: string) {
             sesionAula: aulaAt ? isoDate(aulaAt) : undefined,
             clientes: clients.map((c) => ({
                 id: c.clientId,
-                nombre: c.clientName ?? (c.clientId === "local" ? "Token de utn-mcp login" : "App sin nombre"),
+                nombre: c.clientName ?? (c.clientId === "local" ? "Token de unahur-mcp login" : "App sin nombre"),
                 ultimoUso: isoDate(c.lastTokenAt),
             })),
         };

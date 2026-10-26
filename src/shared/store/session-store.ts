@@ -1,7 +1,7 @@
 /**
  * Dónde viven los usuarios del modo HTTP, sus tokens y sus sesiones en cada plataforma. El servidor
  * MCP lee (y guarda la sesión cuando la renueva); los usuarios y tokens los crea otro proceso: el
- * login por OAuth de la versión hosteada o `utn-mcp login --http` en local.
+ * login por OAuth de la versión hosteada o `unahur-mcp login --http` en local.
  */
 export interface SessionStore {
     /**
@@ -56,7 +56,7 @@ export interface SessionStore {
 
 export interface ConnectedClient {
     clientId: string;
-    /** El que mandó la app al registrarse; null para el token fijo de `utn-mcp login --http`. */
+    /** El que mandó la app al registrarse; null para el token fijo de `unahur-mcp login --http`. */
     clientName: string | null;
     /** Cuándo se emitió su token más nuevo, en segundos desde epoch: los refresh rotan con el uso. */
     lastTokenAt: number;

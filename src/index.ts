@@ -17,10 +17,10 @@ import { SqliteStore } from "./shared/store/sqlite-store.js";
 import { UploadInbox } from "./shared/uploads.js";
 
 const USAGE = `Uso:
-  utn-mcp                 servidor MCP por STDIO (lo lanza el cliente)
-  utn-mcp --http [--host H] [--port N]  servidor MCP por HTTP (por defecto 127.0.0.1:3000)
-  utn-mcp login           guardar credenciales de la UTN y obtener el primer token
-  utn-mcp login --http    lo mismo, para el modo HTTP: guarda la sesión y emite el token del cliente
+  unahur-mcp                 servidor MCP por STDIO (lo lanza el cliente)
+  unahur-mcp --http [--host H] [--port N]  servidor MCP por HTTP (por defecto 127.0.0.1:3000)
+  unahur-mcp login           guardar credenciales de la UNAHUR y obtener el primer token
+  unahur-mcp login --http    lo mismo, para el modo HTTP: guarda la sesión y emite el token del cliente
 
 Si hay un .env en la carpeta actual, se lee al arrancar (ver .env.example).`;
 

@@ -8,13 +8,13 @@ import { availableRegionals, defaultRegional, type Regional } from "./client/reg
 import type { SecondFactor } from "./client/sso-login.js";
 
 /**
- * `utn-mcp login`: pide la regional, usuario y contraseña una vez, los guarda en el keychain
+ * `unahur-mcp login`: pide la regional, usuario y contraseña una vez, los guarda en el keychain
  * y obtiene el primer token. Después el servidor renueva solo.
  * Con `--http` guarda la sesión en el store y emite el token para el cliente MCP.
  */
 export async function runLogin(http: boolean): Promise<void> {
     const regional = await askRegional();
-    const prompt = regional.sso?.provider === "microsoft" ? "Mail de Office 365: " : "Usuario de la UTN: ";
+    const prompt = regional.sso?.provider === "microsoft" ? "Mail de Office 365: " : "Usuario de la UNAHUR: ";
     const username = (await ask(prompt)).trim();
     if (!username) throw new Error("Falta el usuario.");
     const password = await askHidden("Contraseña: ");
@@ -52,7 +52,7 @@ async function askRegional(): Promise<Regional> {
     const regionals = availableRegionals();
     const initial = regionals.findIndex((r) => r.id === defaultRegional().id);
     const labels = regionals.map((r) => r.name + SUPPORT_LABEL[r.support]);
-    return regionals[await askChoice("Regional:", labels, Math.max(initial, 0))];
+    return regionals[await askChoice("Campus:", labels, Math.max(initial, 0))];
 }
 
 /** Contesta por la terminal el segundo factor de Microsoft, si la cuenta lo pide. */

@@ -7,7 +7,7 @@ export interface Credentials {
     regional?: string;
 }
 
-const SERVICE = "utn-mcp";
+const SERVICE = "unahur-mcp";
 const ACCOUNT = "aula-virtual";
 
 // Import dinámico: si el binario nativo o el Secret Service (Linux) no están, seguimos con env vars.

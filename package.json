@@ -1,10 +1,10 @@
 {
-  "name": "utn-mcp",
+  "name": "unahur-mcp",
   "version": "0.8.3",
-  "description": "Este es el Model Context Protocol server NO OFICIAL de la UTN para buscar informacion o archivos en el aula virtual.",
+  "description": "Model Context Protocol server NO OFICIAL de la UNAHUR para buscar información o archivos en el campus virtual. Basado en utn-mcp.",
   "main": "build/index.js",
   "bin": {
-    "utn-mcp": "build/index.js"
+    "unahur-mcp": "build/index.js"
   },
   "files": [
     "build",
@@ -22,21 +22,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nialvape/utn-mcp.git"
+    "url": "git+https://github.com/franiiel/unahur-mcp.git"
   },
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "utn",
-    "aula-virtual"
+    "unahur",
+    "moodle",
+    "campus-virtual"
   ],
   "author": "Joaquín Peñalva (https://github.com/nialvape)",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/nialvape/utn-mcp/issues"
+    "url": "https://github.com/franiiel/unahur-mcp/issues"
   },
-  "homepage": "https://utnmcp.com.ar",
+  "homepage": "https://github.com/franiiel/unahur-mcp#readme",
   "dependencies": {
     "@modelcontextprotocol/node": "^2.1.1",
     "@modelcontextprotocol/server": "^2.3.0",

@@ -34,8 +34,8 @@ export function registerAulaVirtualTools(server: McpServer, session: AulaSession
         "aula_get_site_info",
         {
             description:
-                "Datos del usuario logueado y del sitio Moodle de su aula virtual. `regional` es la regional de la UTN " +
-                "de esa aula (por ejemplo, \"Tucumán (FRT)\"): usala para hablarle de su facultad.",
+                "Datos del usuario logueado y del sitio Moodle de su aula virtual. `regional` es el campus de la UNAHUR " +
+                "de esa aula (por ejemplo, \"Campus 2026\"): cada año lectivo tiene su propio campus.",
             annotations: READ_ONLY,
         },
         async () => {

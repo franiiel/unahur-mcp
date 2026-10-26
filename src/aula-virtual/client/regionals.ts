@@ -17,7 +17,7 @@ export interface Sso {
     host: string;
 }
 
-/** El aula virtual de una regional de la UTN. Sin `sso`, entra con el login directo de Moodle. */
+/** El aula virtual de un campus de la UNAHUR. Sin `sso`, entra con el login directo de Moodle. */
 export interface Regional {
     id: string;
     name: string;
@@ -30,62 +30,23 @@ export interface Regional {
 const MICROSOFT_SSO: Sso = { provider: "microsoft", host: "login.microsoftonline.com" };
 
 /**
- * El soporte de las que no son `verified` sale de `tool_mobile_get_public_config`, que Moodle contesta
- * sin login (octubre de 2026). Falta Villa María (FRVM): no encontramos su aula.
+ * La UNAHUR tiene un Moodle por año lectivo. El soporte de las `candidate` sale de
+ * `tool_mobile_get_public_config`, que Moodle contesta sin login (octubre de 2026).
  */
 const REGIONALS: Regional[] = [
-    { id: "fra", name: "Avellaneda (FRA)", baseUrl: "https://www.utnfravirtual.org.ar", support: "candidate" },
-    { id: "frbb", name: "Bahía Blanca (FRBB)", baseUrl: "https://aulavirtual.frbb.utn.edu.ar", support: "candidate" },
-    {
-        id: "frba",
-        name: "Buenos Aires (FRBA)",
-        baseUrl: "https://aulasvirtuales.frba.utn.edu.ar",
-        sso: { provider: "keycloak", host: "auth.frba.utn.edu.ar" },
-        support: "verified",
-    },
-    { id: "frch", name: "Chubut (FRCh)", baseUrl: "https://frch.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frcu", name: "Concepción del Uruguay (FRCU)", baseUrl: "https://virtual.frcu.utn.edu.ar", support: "candidate" },
-    { id: "frcon", name: "Concordia (FRCon)", baseUrl: "https://frcon.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frc", name: "Córdoba (FRC)", baseUrl: "https://uv.frc.utn.edu.ar", support: "verified" },
-    { id: "frd", name: "Delta (FRD)", baseUrl: "https://frd.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frgp", name: "General Pacheco (FRGP)", baseUrl: "https://frgp.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frh", name: "Haedo (FRH)", baseUrl: "https://frh.cvg.utn.edu.ar", sso: MICROSOFT_SSO, support: "candidate" },
-    { id: "frlp", name: "La Plata (FRLP)", baseUrl: "https://frlp.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frlr", name: "La Rioja (FRLR)", baseUrl: "https://frlr.cvg.utn.edu.ar", support: "candidate" },
-    // Tiene también frmdp.cvg.utn.edu.ar, pero ese entra con Office 365 y no tiene el mobile web service
-    // habilitado, así que no puede emitir token aunque se resuelva el login.
-    { id: "frmdp", name: "Mar del Plata (FRMDP)", baseUrl: "https://campus.mdp.utn.edu.ar", support: "candidate" },
-    // Sin el servicio habilitado.
-    { id: "frm", name: "Mendoza (FRM)", baseUrl: "https://campusvirtual.frm.utn.edu.ar", support: "unsupported" },
-    { id: "frn", name: "Neuquén (FRN)", baseUrl: "https://frn.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frp", name: "Paraná (FRP)", baseUrl: "https://frp.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frra", name: "Rafaela (FRRa)", baseUrl: "https://frra.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frrq", name: "Reconquista (FRRq)", baseUrl: "https://frrq.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frre", name: "Resistencia (FRRE)", baseUrl: "https://frre.cvg.utn.edu.ar", support: "verified" },
-    { id: "frro", name: "Rosario (FRRo)", baseUrl: "https://frro.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frsfco", name: "San Francisco (FRSFco)", baseUrl: "https://frsfco.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frsn", name: "San Nicolás (FRSN)", baseUrl: "https://frsn.cvg.utn.edu.ar", sso: MICROSOFT_SSO, support: "candidate" },
-    { id: "frsr", name: "San Rafael (FRSR)", baseUrl: "https://campus.frsr.utn.edu.ar/moodle", support: "candidate" },
-    { id: "frsc", name: "Santa Cruz (FRSC)", baseUrl: "https://frsc.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frsf", name: "Santa Fe (FRSF)", baseUrl: "https://campusvirtual.frsf.utn.edu.ar", support: "candidate" },
-    // Sin el servicio habilitado.
-    { id: "frtdf", name: "Tierra del Fuego (FRTDF)", baseUrl: "https://cvg.frtdf.utn.edu.ar", support: "unsupported" },
-    { id: "frtl", name: "Trenque Lauquen (FRTL)", baseUrl: "https://frtl.cvg.utn.edu.ar", support: "candidate" },
-    { id: "frt", name: "Tucumán (FRT)", baseUrl: "https://frt.cvg.utn.edu.ar", support: "verified" },
-    // No es una regional sino el aula de la Tecnicatura en Programación a distancia del SIED.
-    { id: "tup", name: "Tecnicatura en Programación (SIED)", baseUrl: "https://tup.sied.utn.edu.ar", support: "verified" },
-    // Sin el servicio habilitado.
-    { id: "frvt", name: "Venado Tuerto (FRVT)", baseUrl: "https://frvt.cvg.utn.edu.ar", support: "unsupported" },
+    { id: "2026", name: "Campus 2026", baseUrl: "https://campus2026.unahur.edu.ar", support: "verified" },
+    { id: "2025", name: "Campus 2025", baseUrl: "https://campus2025.unahur.edu.ar", support: "candidate" },
+    { id: "2024", name: "Campus 2024", baseUrl: "https://campus2024.unahur.edu.ar", support: "candidate" },
 ];
 
-const DEFAULT_REGIONAL = "frba";
+const DEFAULT_REGIONAL = "2026";
 
-/** `UTN_REGIONAL` no está en el registro: sin cortar acá, las credenciales irían al SSO de FRBA. */
+/** `UTN_REGIONAL` no está en el registro: sin cortar acá, las credenciales irían a otro campus. */
 export class UnknownRegionalError extends Error {
     name = "UnknownRegionalError";
     constructor(regional: string) {
         super(
-            `"${regional}" no es una regional conocida. Las válidas son: ${availableRegionals().map((r) => r.id).join(", ")}. ` +
+            `"${regional}" no es un campus conocido. Los válidos son: ${availableRegionals().map((r) => r.id).join(", ")}. ` +
                 "Si tu campus no está en la lista, borrá UTN_REGIONAL y definí UTN_AULA_BASE_URL con la URL del aula " +
                 "(y UTN_SSO_HOST si entra por SSO: el host del Keycloak, o login.microsoftonline.com si es Office 365).",
         );
@@ -98,7 +59,7 @@ export class UnsupportedRegionalError extends Error {
     constructor(readonly regional: Regional) {
         super(
             `Todavía no hay soporte para ${regional.name}: su aula no tiene habilitado el servicio que usa ` +
-                "UTN-MCP o entra por un login que todavía no sabemos usar.",
+                "UNAHUR-MCP o entra por un login que todavía no sabemos usar.",
         );
     }
 }
@@ -140,7 +101,7 @@ export function findRegional(id: string): Regional {
 
 /**
  * La que viene elegida si nadie dice otra: la de UTN_REGIONAL; si no, la de UTN_AULA_BASE_URL; si no,
- * FRBA. Es la de quien usa UTN_USER/UTN_PASS sin `utn-mcp login`, y la opción por defecto al elegir.
+ * el campus del año. Es la de quien usa UTN_USER/UTN_PASS sin `unahur-mcp login`, y la opción por defecto al elegir.
  */
 export function defaultRegional(): Regional {
     const fromEnv = process.env.UTN_REGIONAL?.trim();
