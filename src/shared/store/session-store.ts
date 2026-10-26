@@ -64,7 +64,7 @@ export interface ConnectedClient {
 
 export interface StoredUser {
     id: number;
-    /** El id de su regional (`frba`, `frt`...): su aula y, junto con el nombre, su identidad. */
+    /** El id de su campus (`2026`, `2025`...): su aula y, junto con el nombre, su identidad. */
     regional: string;
     utnUsername: string;
     /** El institucional, el que se usa para decidir el acceso; null en usuarios de antes de guardarlo. */

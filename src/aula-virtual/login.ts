@@ -47,7 +47,7 @@ const SUPPORT_LABEL: Record<Regional["support"], string> = {
     unsupported: " · todavía sin soporte",
 };
 
-/** Arranca marcada la de UTN_REGIONAL (o FRBA). */
+/** Arranca marcado el de UTN_REGIONAL (o el campus del año). */
 async function askRegional(): Promise<Regional> {
     const regionals = availableRegionals();
     const initial = regionals.findIndex((r) => r.id === defaultRegional().id);

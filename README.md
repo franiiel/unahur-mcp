@@ -120,13 +120,14 @@ unahur-mcp login
 y en la config del cliente usás `"command": "unahur-mcp"` sin argumentos.
 
 ### Campus
-La UNAHUR tiene un campus virtual (Moodle) por año lectivo: [campus2026](https://campus2026.unahur.edu.ar), [campus2025](https://campus2025.unahur.edu.ar) y [campus2024](https://campus2024.unahur.edu.ar). El campus se elige al iniciar sesión; viene marcado el del año. Campus 2026 ya está probado. Los demás tienen habilitado el servicio que usa UNAHUR-MCP, así que casi seguro andan. Para cambiar de campus, volvé a correr `login`.
+La UNAHUR tiene un campus virtual (Moodle) por año lectivo, `campusAAAA.unahur.edu.ar`. La lista se arma sola: va del año actual hasta 2023, el primero que existe, así que cada año aparece el campus nuevo sin actualizar nada. El campus se elige al iniciar sesión; viene marcado el del año. Campus 2026 ya está probado; los demás tienen habilitado el servicio que usa UNAHUR-MCP, así que casi seguro andan. Para cambiar de campus, volvé a correr `login`.
 
-Si aparece un campus nuevo que no está en la lista, podés usarlo definiendo en un `.env` en la carpeta desde donde corrés `unahur-mcp` (o en el entorno):
+Al principio del año el campus nuevo puede no existir todavía: si el login falla con el que viene marcado, elegí el del año anterior.
+
+Si querés usar un aula que no sigue ese formato, definila en un `.env` en la carpeta desde donde corrés `unahur-mcp` (o en el entorno) y aparece como una opción más al iniciar sesión:
 ```bash
-UTN_AULA_BASE_URL=https://campus2027.unahur.edu.ar
+UTN_AULA_BASE_URL=https://otra-aula.unahur.edu.ar
 ```
-Aparece como una opción más al iniciar sesión.
 
 `UTN_REGIONAL` (por ejemplo, `UTN_REGIONAL=2025`) elige el que viene marcado por defecto, y es la que se usa si en lugar de `login` definís `UTN_USER` y `UTN_PASS`.
 

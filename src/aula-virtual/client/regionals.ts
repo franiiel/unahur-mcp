@@ -29,17 +29,35 @@ export interface Regional {
 /** Office 365: cada regional tiene su tenant, pero el login es siempre en este host. */
 const MICROSOFT_SSO: Sso = { provider: "microsoft", host: "login.microsoftonline.com" };
 
-/**
- * La UNAHUR tiene un Moodle por año lectivo. El soporte de las `candidate` sale de
- * `tool_mobile_get_public_config`, que Moodle contesta sin login (octubre de 2026).
- */
-const REGIONALS: Regional[] = [
-    { id: "2026", name: "Campus 2026", baseUrl: "https://campus2026.unahur.edu.ar", support: "verified" },
-    { id: "2025", name: "Campus 2025", baseUrl: "https://campus2025.unahur.edu.ar", support: "candidate" },
-    { id: "2024", name: "Campus 2024", baseUrl: "https://campus2024.unahur.edu.ar", support: "candidate" },
-];
+/** El primer campus en Moodle: antes de `campus2023.unahur.edu.ar` no hay ninguno. */
+const FIRST_YEAR = 2023;
 
-const DEFAULT_REGIONAL = "2026";
+/**
+ * Los años con login probado. El resto tiene el servicio habilitado según `tool_mobile_get_public_config`,
+ * que Moodle contesta sin login (octubre de 2026).
+ */
+const VERIFIED_YEARS = new Set([2026]);
+
+const currentYear = () => new Date().getFullYear();
+
+/**
+ * La UNAHUR tiene un Moodle por año lectivo, `campusAAAA.unahur.edu.ar`: del año actual para atrás.
+ * Se arma en cada llamada para que un servidor que sigue andando en año nuevo sume el campus nuevo.
+ */
+// ponytail: asume que el campus del año existe desde el 1 de enero; si la UNAHUR lo crea más tarde, hasta
+// entonces el que viene marcado falla y hay que elegir el anterior. Si molesta, probar el host antes de elegirlo.
+function yearlyCampuses(): Regional[] {
+    const campuses: Regional[] = [];
+    for (let year = currentYear(); year >= FIRST_YEAR; year--) {
+        campuses.push({
+            id: String(year),
+            name: `Campus ${year}`,
+            baseUrl: `https://campus${year}.unahur.edu.ar`,
+            support: VERIFIED_YEARS.has(year) ? "verified" : "candidate",
+        });
+    }
+    return campuses;
+}
 
 /** `UTN_REGIONAL` no está en el registro: sin cortar acá, las credenciales irían a otro campus. */
 export class UnknownRegionalError extends Error {
@@ -86,7 +104,7 @@ function customRegional(): Regional | undefined {
 export function availableRegionals(verifiedIds: Iterable<string> = []): Regional[] {
     const verified = new Set(verifiedIds);
     const custom = customRegional();
-    return [...REGIONALS, ...(custom ? [custom] : [])].map((r) =>
+    return [...yearlyCampuses(), ...(custom ? [custom] : [])].map((r) =>
         r.support === "candidate" && verified.has(r.id) ? { ...r, support: "verified" } : r,
     );
 }
@@ -106,5 +124,5 @@ export function findRegional(id: string): Regional {
 export function defaultRegional(): Regional {
     const fromEnv = process.env.UTN_REGIONAL?.trim();
     if (fromEnv) return findRegional(fromEnv);
-    return customRegional() ?? findRegional(DEFAULT_REGIONAL);
+    return customRegional() ?? findRegional(String(currentYear()));
 }
