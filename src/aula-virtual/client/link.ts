@@ -19,7 +19,7 @@ export interface LinkedAccount {
 /**
  * Entra al aula de la regional con usuario y contraseña, crea el usuario del store si no existe y le
  * guarda la sesión (el token). La contraseña se usa solo acá: no se guarda en ningún lado.
- * Lo usan `utn-mcp login --http`, el login por OAuth de la versión hosteada y `/admin/verificar`.
+ * Lo usan `unahur-mcp login --http`, el login por OAuth de la versión hosteada y `/admin/verificar`.
  * `regional` tiene que venir con su soporte en este servidor (`availableRegionals` con las verificadas).
  * `secondFactor` contesta el MFA de Microsoft si la cuenta lo pide.
  */

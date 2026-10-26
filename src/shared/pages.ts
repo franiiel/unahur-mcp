@@ -16,7 +16,6 @@ background-position:-1px -1px}
 .mono,label,button,.kicker,header{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 header{display:flex;align-items:center;gap:.5rem;height:3.5rem;padding:0 1rem;border-bottom:1px solid var(--line);
 font-size:13px;letter-spacing:-.01em;background:color-mix(in srgb,var(--paper) 75%,transparent)}
-header svg{height:1.5rem;width:auto}
 main{max-width:28rem;margin:3rem auto;padding:0 1rem}
 .card{position:relative;border:1px solid var(--line-strong);background:var(--panel);padding:1.5rem}
 .card::before,.card::after{content:"";position:absolute;width:9px;height:9px;border-color:var(--ink);opacity:.55}
@@ -47,24 +46,16 @@ ul{padding-left:1.2rem}
 ::selection{background:var(--accent);color:var(--paper)}
 `.replace(/\n/g, "");
 
-/** El emblema del proyecto: el de la UTN con "MCP" en lugar de "UTN". */
-const MARK =
-    '<svg viewBox="0 0 100 132" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="11">' +
-    '<path d="M50 0v100M0 50h100"/><path d="M19 0v19a11 11 0 0 0 11 11h40a11 11 0 0 0 11-11V0"/>' +
-    '<path d="M19 100V81a11 11 0 0 1 11-11h40a11 11 0 0 1 11 11v19"/></g>' +
-    '<text x="50" y="131" text-anchor="middle" textLength="72" lengthAdjust="spacingAndGlyphs" ' +
-    'font-family="Arial,Helvetica,sans-serif" font-weight="900" font-size="29" fill="currentColor">MCP</text></svg>';
-
 /**
  * Página mínima con el estilo del sitio del proyecto: se abre desde el celu, así que nada más que lo necesario.
  * `kicker` es la etiqueta chica arriba del título.
  */
-export function page(title: string, body: string, kicker = "UTN-MCP"): string {
+export function page(title: string, body: string, kicker = "UNAHUR-MCP"): string {
     return (
         `<!doctype html><html lang="es"><head><meta charset="utf-8">` +
-        `<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHtml(title)} · UTN-MCP</title>` +
+        `<meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapeHtml(title)} · UNAHUR-MCP</title>` +
         `<style>${STYLE}</style></head><body>` +
-        `<header>${MARK}utn·mcp</header>` +
+        `<header>unahur·mcp</header>` +
         `<main><div class="card"><p class="kicker">${escapeHtml(kicker)}</p><h1>${escapeHtml(title)}</h1>${body}</div></main>` +
         `</body></html>`
     );

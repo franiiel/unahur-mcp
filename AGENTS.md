@@ -1,6 +1,6 @@
-# utn-mcp
+# unahur-mcp
 
-MCP server that gives an agent access to the systems of the UTN (Universidad Tecnológica Nacional), across its regionals. It runs locally over STDIO (`npx utn-mcp`) and will run hosted and multi-user at utnmcp.com.ar. What exists today works well: for something new, copy how `src/aula-virtual/` is built.
+MCP server that gives an agent access to the campus virtual of the UNAHUR (Universidad Nacional de Hurlingham). It is a fork of [utn-mcp](https://github.com/nialvape/utn-mcp): keep the diff against it small (catalog and branding) so upstream changes merge cleanly. Internal identifiers, the `UTN_*` environment variables and the store schema keep their upstream names on purpose. A "regional" in the code is a UNAHUR campus: there is one Moodle per academic year (`campus2026.unahur.edu.ar`). It runs locally over STDIO (`npx unahur-mcp`) and can also run hosted and multi-user. What exists today works well: for something new, copy how `src/aula-virtual/` is built.
 
 ## Module layout
 
@@ -8,14 +8,14 @@ MCP server that gives an agent access to the systems of the UTN (Universidad Tec
 src/
   index.ts          CLI: picks STDIO, --http or `login`
   http.ts           HTTP entry point
-  oauth/            authorization server of the HTTP mode: UTN login, tokens, access policy
+  oauth/            authorization server of the HTTP mode: UNAHUR login, tokens, access policy
   server.ts         createServer(session): registers each platform's tools
   shared/           what serves more than one platform (http, html, documents, logger, paths, input)
   <platform>/
     tools.ts        MCP tool registration
     client/         talks to the platform: session, login, requests, types of its responses
     format/         builds what the model sees, using the client
-    login.ts        that platform's `utn-mcp login` subcommand
+    login.ts        that platform's `unahur-mcp login` subcommand
 ```
 
 Each layer has a single job and dependencies go in one direction only: `tools.ts` → `format/` → `client/` → `shared/`.

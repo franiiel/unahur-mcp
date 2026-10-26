@@ -17,16 +17,16 @@ interface RemoteDecision {
 
 /**
  * La política sale del entorno: con UTN_MCP_ACCESS_URL decide otro servicio;
- * con UTN_MCP_ALLOWED_EMAILS, una lista; sin ninguna, entra cualquiera con usuario de la UTN.
+ * con UTN_MCP_ALLOWED_EMAILS, una lista; sin ninguna, entra cualquiera con usuario de la UNAHUR.
  */
 export function accessPolicyFromEnv(env: NodeJS.ProcessEnv = process.env): AccessPolicy {
     if (env.UTN_MCP_ACCESS_URL) return remotePolicy(env.UTN_MCP_ACCESS_URL, env.UTN_MCP_ACCESS_SECRET);
     if (env.UTN_MCP_ALLOWED_EMAILS) return listPolicy(env.UTN_MCP_ALLOWED_EMAILS);
-    logger.warn("Sin UTN_MCP_ACCESS_URL ni UTN_MCP_ALLOWED_EMAILS: puede entrar cualquiera con usuario de la UTN.");
+    logger.warn("Sin UTN_MCP_ACCESS_URL ni UTN_MCP_ALLOWED_EMAILS: puede entrar cualquiera con usuario de la UNAHUR.");
     return async () => ({ allowed: true });
 }
 
-/** Emails o dominios (`@frba.utn.edu.ar`), separados por coma. */
+/** Emails o dominios (`@unahur.edu.ar`), separados por coma. */
 function listPolicy(raw: string): AccessPolicy {
     const entries = raw.split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
     return async ({ email }) => {

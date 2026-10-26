@@ -43,7 +43,7 @@ export interface OAuthOptions {
     redirects: RedirectAllowlist;
 }
 
-/** Un pedido de `/authorize` esperando que el usuario entre con la UTN. */
+/** Un pedido de `/authorize` esperando que el usuario entre con la UNAHUR. */
 interface PendingAuthorization {
     clientId: string;
     clientName: string | null;
@@ -77,7 +77,7 @@ interface IssuedCode {
 
 /**
  * Servidor de autorización OAuth 2.1 para los clientes MCP: registro dinámico, PKCE obligatorio y
- * clientes públicos. El usuario se identifica con la UTN, y ese mismo login vincula su aula: la
+ * clientes públicos. El usuario se identifica con la UNAHUR, y ese mismo login vincula su aula: la
  * contraseña se usa una vez y no se guarda. Devuelve la URL de la metadata del recurso, que va en el 401.
  */
 export function mountOAuth(app: Express, { issuer, store, access, sameOrigin, redirects }: OAuthOptions): string {
@@ -98,7 +98,7 @@ export function mountOAuth(app: Express, { issuer, store, access, sameOrigin, re
     const resourceMetadata = buildOAuthProtectedResourceMetadata({
         oauthMetadata: metadata,
         resourceServerUrl: new URL(resource),
-        resourceName: "UTN-MCP",
+        resourceName: "UNAHUR-MCP",
     });
 
     const pending = new Expiring<PendingAuthorization>(PENDING_TTL_MS);
@@ -318,9 +318,9 @@ export function mountOAuth(app: Express, { issuer, store, access, sameOrigin, re
         const password = String(req.body?.contrasena ?? "");
         if (!username || !password) return retry(res, "Completá usuario y contraseña.");
         const regional = list.find((r) => r.id === String(req.body?.regional ?? ""));
-        if (!regional) return retry(res, "Elegí tu regional de la lista.");
+        if (!regional) return retry(res, "Elegí tu campus de la lista.");
         if (regional.support === "unsupported") {
-            return retry(res, `Todavía no hay soporte para ${regional.name}: su aula todavía no funciona con UTN-MCP.`);
+            return retry(res, `Todavía no hay soporte para ${regional.name}: su aula todavía no funciona con UNAHUR-MCP.`);
         }
         const flow = new PendingLogin((secondFactor) => linkAulaAccount(store, regional, { username, password }, secondFactor));
         await advance(res, { flow, regional, username, retry, finish });
@@ -341,12 +341,12 @@ export function mountOAuth(app: Express, { issuer, store, access, sameOrigin, re
             await finish(res, step.done);
         } catch (e) {
             if (id) secondFactors.take(id);
-            if (e instanceof InvalidCredentialsError) retry(res, "La UTN rechazó el usuario o la contraseña.");
+            if (e instanceof InvalidCredentialsError) retry(res, "La UNAHUR rechazó el usuario o la contraseña.");
             else if (e instanceof MfaError) retry(res, e.message);
             else if (regional.support === "candidate") {
                 // Nadie la había usado acá: lo más probable es que todavía no ande, no que esté caída.
                 logger.warn(`Regional ${regional.id} sin verificar, falló el login de ${username}: ${(e as Error).message}`);
-                retry(res, `No pudimos usar el aula de ${regional.name}: puede que todavía no ande con UTN-MCP.`);
+                retry(res, `No pudimos usar el aula de ${regional.name}: puede que todavía no ande con UNAHUR-MCP.`);
             } else {
                 logger.error(`Login de ${username} (${regional.id}): ${(e as Error).message}`);
                 retry(res, "No pudimos entrar al aula. Puede que esté caída: probá de nuevo en unos minutos.");
@@ -456,8 +456,8 @@ function loginPage(o: {
           `${where} haga con mi aula ni con mi sesión.</span></label>`
         : "";
     const intro = o.pendingId
-        ? `<p>${escapeHtml(o.clientName ?? "Una app")} quiere usar UTN-MCP con tu Aula Virtual. Entrá con tu usuario de la UTN para conectarla.${destination}</p>`
-        : "<p>Tu sesión del aula venció. Entrá con tu usuario de la UTN para renovarla.</p>";
+        ? `<p>${escapeHtml(o.clientName ?? "Una app")} quiere usar UNAHUR-MCP con tu Aula Virtual. Entrá con tu usuario de la UNAHUR para conectarla.${destination}</p>`
+        : "<p>Tu sesión del aula venció. Entrá con tu usuario de la UNAHUR para renovarla.</p>";
     const error = o.error ? `<p class=error>${escapeHtml(o.error)}</p>` : "";
     const hidden = o.pendingId ? `<input type="hidden" name="pedido" value="${escapeHtml(o.pendingId)}">` : "";
     const selected = o.regional || defaultRegional().id;
@@ -468,22 +468,22 @@ function loginPage(o: {
         return items.length ? `<optgroup label="${escapeHtml(label)}">${items.map(option).join("")}</optgroup>` : "";
     };
     const options =
-        group("Regionales", "verified") +
-        group("Agregar mi regional (primera vez acá)", "candidate") +
+        group("Campus", "verified") +
+        group("Agregar mi campus (primera vez acá)", "candidate") +
         group("Todavía sin soporte", "unsupported");
     return page(
-        "Entrar con la UTN",
+        "Entrar con la UNAHUR",
         intro +
             warning +
             error +
             `<form method="post" action="${o.action}">${hidden}` +
-            `<label>Regional<select name="regional" required>${options}</select></label>` +
+            `<label>Campus<select name="regional" required>${options}</select></label>` +
             `<label>Usuario<input name="usuario" autocomplete="username" autocapitalize="none" required></label>` +
             `<label>Contraseña<input name="contrasena" type="password" autocomplete="current-password" required></label>` +
             consent +
             `<button type="submit">Entrar</button></form>` +
             "<p class=nota>La contraseña se usa una sola vez para entrar al aula y no se guarda. " +
-            'El código es abierto: <a href="https://github.com/nialvape/utn-mcp">github.com/nialvape/utn-mcp</a>.</p>',
+            'El código es abierto y está basado en <a href="https://github.com/nialvape/utn-mcp">utn-mcp</a>.</p>',
         o.pendingId ? "Conectar app · Aula Virtual" : "Renovar sesión · Aula Virtual",
     );
 }
