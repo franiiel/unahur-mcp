@@ -1,5 +1,9 @@
 # UNAHUR-MCP — El puente entre tu agente y el campus virtual de la UNAHUR.
-Este es el Model Context Protocol server NO OFICIAL de la Universidad Nacional de Hurlingham, un fork de [utn-mcp](https://github.com/nialvape/utn-mcp). Con él podés pedirle a tu agente de preferencia (Claude, ChatGPT, etc.) que busque información y lea los apuntes del aula virtual y, con tu confirmación, que publique en los foros o entregue tareas. Corre en tu computadora o como servidor HTTP con OAuth, para usarlo desde cualquier lado.
+
+> [!NOTE]
+> **Basado en [utn-mcp](https://github.com/nialvape/utn-mcp)**, de [Joaquín Peñalva](https://github.com/nialvape). Todo el trabajo y el mérito de este proyecto son suyos; este fork es solamente una adaptación al campus de la UNAHUR. Si estudiás en la UTN, usá el original. Si te gustó, dale una estrellita al original ❤️
+
+Este es el Model Context Protocol server NO OFICIAL de la Universidad Nacional de Hurlingham. Con él podés pedirle a tu agente de preferencia (Claude, ChatGPT, etc.) que busque información y lea los apuntes del aula virtual y, con tu confirmación, que publique en los foros o entregue tareas. Corre en tu computadora o como servidor HTTP con OAuth, para usarlo desde cualquier lado.
 
 ## Qué podés pedirle
 - *"¿Cuándo es el recuperatorio del primer parcial de Álgebra?"*
