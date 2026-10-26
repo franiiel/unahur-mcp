@@ -52,7 +52,7 @@ Necesitás [Node.js](https://nodejs.org) 20 o superior. No hace falta clonar el 
 ```bash
 npx -y unahur-mcp login
 ```
-Te pide tu campus, tu usuario y tu contraseña: los mismos con los que entrás al aula virtual. Si no tenés usuario institucional (por ejemplo, en el curso de ingreso), usá el que te dieron para el aula. En Córdoba (FRC) los alumnos entran con el mail completo (`<legajo>@<especialidad>.frc.utn.edu.ar`), no con el legajo solo; con una cuenta `@frc.utn.edu.ar`, con lo que va antes de la `@`. En Haedo (FRH) y San Nicolás (FRSN) se entra con el mail completo de Office 365 (en FRH, del estilo `<inicial><apellido><3 dígitos del legajo>@alumnos.frh.utn.edu.ar`). Se hace una sola vez: después el servidor renueva la sesión solo.
+Te pide tu campus, tu usuario y tu contraseña: los mismos con los que entrás al aula virtual. Se hace una sola vez: después el servidor renueva la sesión solo.
 
 ### 2. Agregarlo a tu cliente
 
@@ -149,7 +149,7 @@ Levanta el servidor en `http://127.0.0.1:3000/mcp`, solo accesible desde tu prop
 En este modo el servidor no lee archivos de tu disco: para entregar, el agente pide un link con `aula_assign_upload_link` y sube ahí los archivos con `curl` si tiene terminal, o te pasa el link para que los elijas desde el navegador.
 
 ### Hostearlo para otros
-En modo HTTP el servidor también es servidor de autorización OAuth: un cliente MCP (Claude, ChatGPT) que se conecta a `https://tu-dominio/mcp` recibe un 401, descubre el OAuth y abre una página donde el alumno elige su campus y entra con su usuario de la UNAHUR. Cada alumno usa el aula de su regional, aunque sean de regionales distintas. Ese login vincula su aula: la contraseña se usa una sola vez para sacar el token de Moodle y **no se guarda**. Cuando la sesión del aula vence, el agente le pasa el link de `/login` para renovarla, sin reconectar el cliente.
+En modo HTTP el servidor también es servidor de autorización OAuth: un cliente MCP (Claude, ChatGPT) que se conecta a `https://tu-dominio/mcp` recibe un 401, descubre el OAuth y abre una página donde el alumno elige su campus y entra con su usuario de la UNAHUR. Cada alumno usa el campus que elige. Ese login vincula su aula: la contraseña se usa una sola vez para sacar el token de Moodle y **no se guarda**. Cuando la sesión del aula vence, el agente le pasa el link de `/login` para renovarla, sin reconectar el cliente.
 
 Quién puede entrar lo decidís vos: con `UTN_MCP_ALLOWED_EMAILS` (una lista), o con `UTN_MCP_ACCESS_URL`, que apunta a un servicio tuyo. El servidor le hace `POST` con `{ "email", "usuario", "regional" }` y el header `Authorization: Bearer <UTN_MCP_ACCESS_SECRET>`, y espera `{ "permitido": true }` o `{ "permitido": false, "motivo": "...", "url": "..." }`. Se consulta al conectar y en cada renovación del token (cada hora), así que una baja se aplica sola.
 
@@ -162,7 +162,7 @@ La configuración va en variables de entorno o en un `.env` en la carpeta desde 
 | `UTN_MCP_ACCESS_URL`, `UTN_MCP_ACCESS_SECRET` | Servicio que decide quién puede entrar. | — |
 | `UTN_MCP_ALLOWED_EMAILS` | Emails o dominios (`@unahur.edu.ar`) habilitados, separados por coma, si no hay `UTN_MCP_ACCESS_URL`. | Entra cualquiera con usuario de la UNAHUR |
 | `UTN_MCP_REDIRECT_ALLOW` | Hosts (`app.ejemplo.com`) o esquemas (`miapp:`) extra, separados por coma, a los que puede volver el login de OAuth. Loopback, Claude, ChatGPT, VS Code y Cursor pasan siempre. Cualquier otro host HTTPS (un agente propio, por ejemplo) se acepta, pero el login avisa a dónde vuelve y el alumno tiene que marcar que lo conecta bajo su responsabilidad: es la defensa contra alguien que use tu página de login para quedarse con su sesión. Los hosts de esta lista pasan sin aviso. | — |
-| `UTN_MCP_ADMIN_SECRET` | Habilita la API de `/admin` para un panel de cuentas tuyo: `POST /admin/usuarios` (todos los usuarios con sus apps), `/admin/clientes` y `/admin/clientes/revocar` (las apps de un usuario, por email), `/admin/regionales` (las regionales con su soporte) y `/admin/verificar` (entra al aula con usuario y contraseña, como el login de OAuth, y le guarda la sesión; si Microsoft pide segundo factor, devuelve el paso y se sigue con `/admin/segundo-factor`). | — |
+| `UTN_MCP_ADMIN_SECRET` | Habilita la API de `/admin` para un panel de cuentas tuyo: `POST /admin/usuarios` (todos los usuarios con sus apps), `/admin/clientes` y `/admin/clientes/revocar` (las apps de un usuario, por email), `/admin/regionales` (los campus con su soporte) y `/admin/verificar` (entra al aula con usuario y contraseña, como el login de OAuth, y le guarda la sesión). | — |
 | `UTN_MCP_LOGIN_URL` | Página donde el usuario renueva su sesión del aula; el agente se la pasa. | `<UTN_MCP_PUBLIC_URL>/login` |
 | `UTN_MCP_DB`, `UTN_MCP_KEY` | Base de sesiones y su clave de cifrado (32 bytes en base64). | En la carpeta de config |
 
